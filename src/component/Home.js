@@ -1,20 +1,27 @@
 import React, { Component } from "react";
 import JSON from "./db.json";
+import Header from './Header';
+import Product from "./productDisplay";
 class App extends Component {
   constructor() {
     super();
     this.state = {
       productData: JSON,
+      filteredData:JSON
     };
   }
-  renderData() {
-      console.log("inside renderdata")
-  };
+  filterData=(keyword)=>{
+
+let output = this.state.productData.filter((data)=>{
+  return (data.name.toLowerCase().indexOf(keyword.toLowerCase())>-1)
+})
+    this.setState({filteredData:output})
+  }
   render() {
     return (
       <>
-        <h1>Hello world</h1>
-        {this.renderData()}
+        <Header userInput={(data)=>{this.filterData(data)}}></Header>
+        <Product renderData={this.state.filteredData}></Product>
       </>
     );
   }
